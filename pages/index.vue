@@ -1,0 +1,9 @@
+<template>
+	<Start />
+</template>
+<style scoped lang="scss">
+
+</style>
+<script setup lang="ts">
+
+</script>
