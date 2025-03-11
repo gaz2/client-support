@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint .",
-    "prestart": "npm run build"
+    "clean": "rimraf dist",
+    "prestart": "npm run clean && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -25,8 +26,10 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^22.13.10",
     "@types/pg": "^8.11.11",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },

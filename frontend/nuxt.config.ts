@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   typescript: {
     typeCheck: true
   },
@@ -21,18 +22,6 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  runtimeConfig: {
-    public: {
-      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3001',
-    },
-  },
-  nitro: {
-    logLevel: 'info', // Уровень логирования
-    preset: 'node-server', // Пресет для деплоя
-    /*middleware: [
-      '~/server/middleware/logger.ts', // Middleware для логирования
-    ],*/
-  },
   css: [
     '@/assets/scss/main.scss'
   ],

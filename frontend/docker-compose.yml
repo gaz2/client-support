@@ -1,0 +1,42 @@
+services:
+  nuxt:
+    image: gaz2/nuxt3-docker-1:latest  # Ваш образ из Docker Hub
+    container_name: nuxt
+    networks:
+      - app_network
+    # Если образ требует переменные окружения:
+    environment:
+      NUXT_HOST: 0.0.0.0
+      NUXT_PORT: 3000
+      API_BASE_URL: http://backend:3001
+    expose:
+      - "3000"
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:latest  # Официальный образ Nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt  # Для SSL
+    depends_on:
+      - nuxt
+      - api
+    networks:
+      - app_network
+
+  backend:
+    image: gaz2/express-api:latest
+    container_name: backend
+    environment:
+      MONGO_URI: ${MONGO_URI}          
+    ports:
+      - "3001:3001"
+
+networks:
+  app_network:
+    driver: bridge

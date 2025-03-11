@@ -1,25 +1,34 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
-import { connectDB } from './utils/db';
-import userRoutes from './routes/userRoutes';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import routes from './routes';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api', userRoutes);
-
 // Подключение к MongoDB
-connectDB();
+const mongooseOptions: mongoose.ConnectOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+mongoose.connect('mongodb://mongo:27017/mydatabase', mongooseOptions)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('MongoDB connection error:', error);
+  });
+
+// Маршруты
+app.use('/api', routes);
 
 // Запуск сервера
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3001, () => {
+  console.log('Server is running on port 3001');
+}).on('error', (error) => {
+  console.error('Server error:', error);
 });

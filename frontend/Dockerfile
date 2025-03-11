@@ -1,5 +1,6 @@
 FROM node:lts AS build-stage
 
+
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
@@ -15,8 +16,8 @@ COPY . .
 # Собираем проект
 RUN npm run build
 
-# Открываем порт 3001
-EXPOSE 3001
+# Открываем порт 3000
+EXPOSE 3000
 
 # Запускаем приложение
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
