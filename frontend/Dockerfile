@@ -1,23 +1,24 @@
 FROM node:lts AS build-stage
 
+WORKDIR /nuxtapp
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
-
-# Копируем package.json и package-lock.json
-COPY package*.json ./
-
-# Устанавливаем зависимости
-RUN npm install
-
-# Копируем исходный код
 COPY . .
 
-# Собираем проект
+RUN npm install
+
 RUN npm run build
 
-# Открываем порт 3000
-EXPOSE 3000
+RUN rm -rf node_modules && \
+  NODE_ENV=production npm install \
+  --prefer-offline \
+  --pure-lockfile \
+  --non-interactive \
+  --production=true
 
-# Запускаем приложение
-CMD ["npm", "run", "start"]
+FROM node:lts AS prod-stage
+
+WORKDIR /nuxtapp
+
+COPY --from=build-stage /nuxtapp/.output/  ./.output/
+
+CMD [ "node", ".output/server/index.mjs" ]
