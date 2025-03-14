@@ -25,7 +25,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt  # Для SSL
     depends_on:
       - nuxt
-      - api
+      - backend
     networks:
       - app_network
 
