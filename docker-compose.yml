@@ -8,7 +8,7 @@ services:
     environment:
       NUXT_HOST: 0.0.0.0
       NUXT_PORT: 3000
-      API_BASE_URL: http://backend:3001
+      API_BASE_URL: http://localhost:3001/api
     expose:
       - "3000"
     depends_on:
@@ -32,8 +32,11 @@ services:
   backend:
     image: gaz2/express-api:latest
     container_name: backend
+    network_mode: host
     environment:
-      MONGO_URI: ${MONGO_URI}          
+      MONGO_URI: ${VPS_MONGO_URI}
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     ports:
       - "3001:3001"
 
