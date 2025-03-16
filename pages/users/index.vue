@@ -28,7 +28,7 @@ interface IUser {
   status: string;
 }
 
-const { data, pending, error } = await useFetch<IUser[]>('http://localhost:3001/api/users');
+const { data, pending, error } = await useFetch<IUser[]>('http://backend:3001/api/users');
 </script>
 
 <style lang="scss" scoped>

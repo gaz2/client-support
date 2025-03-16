@@ -3,12 +3,11 @@ services:
     image: gaz2/nuxt3-docker-1:latest  # Ваш образ из Docker Hub
     container_name: nuxt
     networks:
-      - app_network
-    # Если образ требует переменные окружения:
+      - app_network  # Исправлено на app_network
     environment:
       NUXT_HOST: 0.0.0.0
       NUXT_PORT: 3000
-      API_BASE_URL: http://localhost:3001/api
+      API_BASE_URL: http://backend:3001/api
     expose:
       - "3000"
     depends_on:
@@ -22,24 +21,41 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - /etc/letsencrypt:/etc/letsencrypt  # Для SSL
+      - /etc/letsencrypt:/etc/letsencrypt 
     depends_on:
       - nuxt
       - backend
     networks:
-      - app_network
+      - app_network  # Исправлено на app_network
 
   backend:
     image: gaz2/express-api:latest
     container_name: backend
-    network_mode: host
-    environment:
-      MONGO_URI: ${VPS_MONGO_URI}
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+    networks:
+      - app_network  # Исправлено на app_network
     ports:
       - "3001:3001"
+    environment:
+      MONGO_URI: mongodb://mir_user:mir123@mongo:27017/user_db
+    depends_on:
+      - mongo
+
+  mongo:
+    image: gaz2/mongo:latest
+    networks:
+      - app_network  # Исправлено на app_network
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
 
 networks:
-  app_network:
+  app_network:  # Определена сеть app_network
     driver: bridge
+
