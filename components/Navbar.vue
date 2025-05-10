@@ -19,10 +19,10 @@
         <NuxtLink to="/blog" class="navbar-link">Blog</NuxtLink>
       </li>
       <li class="navbar-item">
-        <NuxtLink to="/media" class="navbar-link">Media</NuxtLink>
+        <NuxtLink to="/register" class="navbar-link">Register</NuxtLink>
       </li>
       <li class="navbar-item">
-        <NuxtLink to="/contacts" class="navbar-link">Contacts</NuxtLink>
+        <NuxtLink to="/users" class="navbar-link">Users</NuxtLink>
       </li>
     </ul>
   </nav>
